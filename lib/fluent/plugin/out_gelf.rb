@@ -57,7 +57,9 @@ class GELFOutput < BufferedOutput
 
     record.each_pair do |k,v|
       # Truncate values longer than configured maximum
-      v = v.bytesize > @max_bytes ? "#{v.byteslice(0, @max_bytes - 3)}..." : v
+      if v.respond_to?('bytesize')
+        v = v.bytesize > @max_bytes ? "#{v.byteslice(0, @max_bytes - 3)}..." : v
+      end
 
       case k
       when 'version' then
